@@ -5,18 +5,18 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '26d3c9128be0f108883c6fefd0b08862e719a1f0',
-        'name' => '__root__',
+        'reference' => '57abbbb56d93303eed67816f77cd86cc0edfb873',
+        'name' => 'djippothehippo/tracezilla-php-connector',
         'dev' => true,
     ),
     'versions' => array(
-        '__root__' => array(
+        'djippothehippo/tracezilla-php-connector' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '26d3c9128be0f108883c6fefd0b08862e719a1f0',
+            'reference' => '57abbbb56d93303eed67816f77cd86cc0edfb873',
             'dev_requirement' => false,
         ),
         'guzzlehttp/guzzle' => array(
