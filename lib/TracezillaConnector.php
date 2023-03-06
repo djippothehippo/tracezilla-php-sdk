@@ -101,10 +101,12 @@ class TracezillaConnector {
      * Instantiate new resource classes
      */
     public function __call($methodName, $arguments) {
-        if (!class_exists("TracezillaConnector\\Resources\\" . $methodName)) {
+        $className = "TracezillaConnector\\Resources\\$methodName";
+
+        if (!class_exists($className)) {
             throw new ResourceCouldNotBefound("A resource with the name $methodName could not be found!");
         }
-        
-        
+
+        return new $className($this);
     }
 }
