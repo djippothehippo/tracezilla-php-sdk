@@ -84,12 +84,11 @@ class TracezillaConnector {
             'http_errors' => false
         ]);
 
-        if ($response->getStatusCode() === 422) {
-            throw new \Exception($response->getBody()->getContents());
-        }
-
-        if (in_array($response->getStatusCode(), [200, 201, 204])) {
+        if (in_array($response->getStatusCode(), [200, 201, 202, 203, 204])) {
             return json_decode($response->getBody()->getContents(), true);
+        }
+        else {
+            throw new \Exception('HTTP response ' . $response->getStatusCode() . ': ' . $response->getBody()->getContents());
         }
     }
 
