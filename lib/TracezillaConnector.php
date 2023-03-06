@@ -47,8 +47,8 @@ class TracezillaConnector {
      * 
      */
     public function connectUsingAccessToken(string $accessToken) {
-        $this->authMethod = 'access_token';
-        $this->accessToken                   = $accessToken;
+        $this->authMethod   = 'access_token';
+        $this->accessToken  = $accessToken;
 
         return $this;
     }
@@ -61,7 +61,7 @@ class TracezillaConnector {
         return [
             'Authorization' => 'Bearer ' . $this->accessToken,
             'Accept'        => 'application/json',
-            'Content-Type'    => 'application/json',
+            'Content-Type'  => 'application/json',
         ];
     }
 
@@ -95,7 +95,7 @@ class TracezillaConnector {
 
         $response = $this->client->request('GET', $url, [
             'headers' => $this->defaultHttpHeader(),
-            'query' => $query,
+            //'query' => $query,
             'body' => json_encode($data),
             'defaults' => ['exceptions' => false],
             'http_errors' => false
