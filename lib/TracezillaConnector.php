@@ -18,7 +18,12 @@ class TracezillaConnector {
     /**
      * Api key to use for authentication
      */
-    protected $apiKey = "";
+    protected $accessToken = "";
+
+    /**
+     * Authentication method
+     */
+    protected $authMethod;
 
     /**
      * GuzzleHttp client
@@ -28,13 +33,24 @@ class TracezillaConnector {
     /**
      * Intiate connector
      */
-    public function __construct(string $baseUrl, string $teamSlug, string $apiKey)
+    public function __construct(string $baseUrl, string $teamSlug)
     {
         $this->baseUrl                  = $baseUrl;
         $this->teamSlug                 = $teamSlug;
-        $this->apiKey                   = $apiKey;
 
         $this->client = new GuzzleHttp\Client(['base_uri' => $this->baseUrl . '/api/v1/' . $this->teamSlug . '/']);
+
+        return $this;
+    }
+
+    /**
+     * 
+     */
+    public function connectUsingAccessToken(string $accessToken) {
+        $this->authMethod = 'access_token';
+        $this->accessToken                   = $accessToken;
+
+        return $this;
     }
 
     /**
@@ -43,7 +59,7 @@ class TracezillaConnector {
     public function defaultHttpHeader()
     {
         return [
-            'Authorization' => 'Bearer ' . $this->apiKey,
+            'Authorization' => 'Bearer ' . $this->accessToken,
             'Accept'        => 'application/json',
         ];
     }
@@ -88,6 +104,13 @@ class TracezillaConnector {
             return json_decode($response->getBody()->getContents(), true);
         }
         else {
+            print_r(['url' => $url, 'opts' => [
+                'headers' => $this->defaultHttpHeader(),
+                'query' => $query,
+                'body' => json_encode($data),
+                'defaults' => ['exceptions' => false],
+                'http_errors' => false
+            ]]);
             throw new \Exception('HTTP response ' . $response->getStatusCode() . ': ' . $response->getBody()->getContents());
         }
     }
