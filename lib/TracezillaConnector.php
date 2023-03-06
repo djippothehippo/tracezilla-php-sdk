@@ -96,7 +96,7 @@ class TracezillaConnector {
         $response = $this->client->request('GET', $url, [
             'headers' => $this->defaultHttpHeader(),
             //'query' => $query,
-            'body' => json_encode($data),
+            'json' => $data,
             'defaults' => ['exceptions' => false],
             'http_errors' => false
         ]);
