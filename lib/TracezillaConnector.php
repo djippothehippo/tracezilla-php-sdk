@@ -61,8 +61,10 @@ class TracezillaConnector {
     }
 
     public function getRequest($endpoint, $query = [])
-    {
-        $response = $this->client->request('GET', $endpoint, [
+    {        
+        $url = $this->endpointUrl($endpoint);
+
+        $response = $this->client->request('GET', $url, [
             'headers' => $this->defaultHttpHeader(),
             'query' => $query,
         ]);
@@ -72,7 +74,23 @@ class TracezillaConnector {
 
     public function putRequest($endpoint, $data, $query = [])
     {
-        $endpoint = $this->endpointUrl($endpoint);
+        $url = $this->endpointUrl($endpoint);
+
+        $response = $this->client->request('GET', $url, [
+            'headers' => $this->defaultHttpHeader(),
+            'query' => $query,
+            'body' => json_encode($data),
+            'defaults' => ['exceptions' => false],
+            'http_errors' => false
+        ]);
+
+        if ($response->getStatusCode() === 422) {
+            throw new \Exception($response->getBody()->getContents());
+        }
+
+        if (in_array($response->getStatusCode(), [200, 201, 204])) {
+            return json_decode($response->getBody()->getContents(), true);
+        }
     }
 
     public function postRequest($endpoint, $data, $query = [])
