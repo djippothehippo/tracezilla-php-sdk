@@ -33,7 +33,7 @@ class BaseResource {
     /**
      * Id of the resource that is currently being worked on
      */
-    protected $resourcePointerId = '';
+    protected $activeResourceId = '';
 
     /**
      * 
@@ -46,8 +46,8 @@ class BaseResource {
     /**
      * Get loaded resource id
      */
-    public function loadedResourceId() {
-        return $this->resourcePointerId;
+    public function getActiveResourceId() {
+        return $this->activeResourceId;
     }
 
     /**
@@ -61,7 +61,7 @@ class BaseResource {
      * Helper function get base endpoint of resource url
      */
     public function resourceEndpoint() {
-        return $this->baseEndpoint() . '/' . $this->loadedResourceId();
+        return $this->baseEndpoint() . '/' . $this->getActiveResourceId();
     }
 
     /**
@@ -71,7 +71,7 @@ class BaseResource {
         /**
          * Set the resource pointer of the current resource
          */
-        $this->resourcePointerId = $resourceId;
+        $this->activeResourceId = $resourceId;
 
         /**
          * Check to see if a valid resource has already been loaded
@@ -89,7 +89,7 @@ class BaseResource {
         /**
          * Store the loaded resource in the cache for fast fetch next time
          */
-        $this->setLoadedResource($resourceId, $resource, $include);
+        $this->setActiveResource($resourceId, $resource, $include);
 
         return $this;
     }
@@ -97,11 +97,13 @@ class BaseResource {
     /**
      * Helper function to set a loaded resource in the object cache
      */
-    public function setLoadedResource($resourceId, $data, array $include = []) {
+    public function setActiveResource($resourceId, $data, array $include = []) {
         $this->loadedResources[$resourceId] = [
             'include' => $include,
             'resource' => $data
         ];
+
+        $this->activeResourceId = $resourceId;
     }
 
     /**
@@ -112,14 +114,25 @@ class BaseResource {
     }
 
     /**
-     * Return already loaded resource as array
+     * Return active resource as array
      */
     public function resource() {
-        if (!$this->resourcePointerId || !$this->loadedResources[$this->resourcePointerId]) {
+        if (!$this->activeResourceId || !$this->loadedResources[$this->activeResourceId]) {
             throw new ResourceNotLoaded("The resource you are looking for has not been loaded!");
         }
 
-        return $this->loadedResources[$this->resourcePointerId]['resource'];
+        return $this->loadedResources[$this->activeResourceId]['resource'];
+    }
+
+    /**
+     * Return id of active resource
+     */
+    public function resourceId() {
+        if (!$this->activeResourceId || !$this->loadedResources[$this->activeResourceId]) {
+            throw new ResourceNotLoaded("The resource you are looking for has not been loaded!");
+        }
+
+        return $this->activeResourceId;
     }
 
     /**
@@ -184,7 +197,7 @@ class BaseResource {
      */
     public function store($data) {
         $resource = $this->connector->postRequest(self::BASE_ENDPOINT, $data);
-        $this->setLoadedResource($resource['id'], $resource);
+        $this->setActiveResource($resource['id'], $resource);
         return $this;
     }
 
