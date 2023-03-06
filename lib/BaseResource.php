@@ -21,9 +21,14 @@ class BaseResource {
     protected $loadedResources = [];
 
     /**
-     * Loaded resources
+     * Loaded results
      */
-    protected $currentPage = 1;
+    protected $results = [];
+
+    /**
+     * Loaded resource
+     */
+    protected $nextPageUrl = '';
 
     /**
      * Id of the resource that is currently being worked on
@@ -118,16 +123,31 @@ class BaseResource {
     }
 
     /**
+     * Return results
+     */
+    public function results() {
+        return $this->results;
+    }
+
+    /**
      * Get initial index request
      */
-    public function index($filters = [], array $include = [], $page = 1, $additional) {
-
+    public function index($query) {
         /**
          * Try to fetch the resource
          */
-        $index = $this->connector->getRequest($this->baseEndpoint(), [
-            'page' => 1
-        ]);
+        $this->results = null;
+        $this->nextPageUrl = null;
+
+        $response = $this->connector->getRequest($this->baseEndpoint(), $query);
+
+        if ($response) {
+            $this->results = $response['data'];
+
+            if (isset($response['links']['next_page']) && !empty($response['links']['next_page'])) {
+                $this->nextPageUrl = $response['links']['next_page'];
+            }
+        }
 
         return $this;
     }
@@ -135,11 +155,28 @@ class BaseResource {
     /**
      * 
      */
-    public function nextPage($page, $include = []) {
+    public function nextPage() {
         /**
          * Try to fetch the resource
          */
-        $resource = $this->connector->getRequest($this->baseEndpoint());
+        $this->results = null;
+        $this->nextPageUrl = null;
+
+        if (!$this->nextPageUrl) {
+            return $this;
+        }
+
+        $response = $this->connector->getRequest($this->nextPageUrl);
+
+        if ($response) {
+            $this->results = $response['data'];
+
+            if (isset($response['links']['next_page']) && !empty($response['links']['next_page'])) {
+                $this->nextPageUrl = $response['links']['next_page'];
+            }
+        }
+
+        return $this;
     }
 
     /**
