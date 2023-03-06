@@ -93,7 +93,7 @@ class TracezillaConnector {
     {
         $url = $this->endpointUrl($endpoint);
 
-        $response = $this->client->request('GET', $url, [
+        $response = $this->client->request('PUT', $url, [
             'headers' => $this->defaultHttpHeader(),
             //'query' => $query,
             'json' => $data,

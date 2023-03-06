@@ -34,7 +34,7 @@ class Tag extends BaseResource {
             $this::$resourceIdsByModelAndName[$modelName] = [];
         }
 
-        $endpoint = $this->baseEndpoint() . '/shortcuts/tag-by-name/' . $modelName;
+        $endpoint = $this->baseEndpoint() . 'shortcuts/tag-by-name/' . $modelName;
 
         $resource = $this->connector->putRequest($endpoint, [
             'tag_name' => $tagName
