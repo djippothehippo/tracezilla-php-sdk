@@ -61,6 +61,7 @@ class TracezillaConnector {
         return [
             'Authorization' => 'Bearer ' . $this->accessToken,
             'Accept'        => 'application/json',
+            'Content-Type'    => 'application/json',
         ];
     }
 
