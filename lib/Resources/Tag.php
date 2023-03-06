@@ -40,7 +40,7 @@ class Tag extends BaseResource {
             'tag_name' => $tagName
         ]);
 
-        $this->setActiveResource($resource['id'], $resource, ['models']);
+        $this->setActiveResource($resource['id'], $resource['data'], ['models']);
 
         foreach ($resource['models'] as $modelName) {
             $this::$resourceIdsByModelAndName[$modelName][$tagName] = $resource['id'];
