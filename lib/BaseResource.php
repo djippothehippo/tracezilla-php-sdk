@@ -105,7 +105,7 @@ class BaseResource {
      */
     public function getRelated($relationName, array $include = [], bool $forceReload = false) {
         return (new $this::$relations[$relationName]['class']($this->connector))
-            ->get($this->data($relationName), $include, $forceReload);
+            ->get($this->data($this::$relations[$relationName]['field']), $include, $forceReload);
     }
 
     /**
