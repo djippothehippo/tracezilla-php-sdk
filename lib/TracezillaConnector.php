@@ -86,7 +86,7 @@ class TracezillaConnector {
             'query' => $query,
         ]);
 
-        return json_decode($response->getBody());
+        return json_decode($response->getBody(), true);
     }
 
     public function putRequest($endpoint, $data, $query = [])
