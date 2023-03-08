@@ -24,7 +24,7 @@ class BaseResource {
     /**
      * Loaded resources
      */
-    protected $loadedResources = [];
+    protected static $loadedResources = [];
 
     /**
      * Loaded results
@@ -82,9 +82,9 @@ class BaseResource {
         /**
          * Check to see if a valid resource has already been loaded
          */
-        if (!$forceRefresh && isset($this->loadedResources[$resourceId]) && 
-            $this->hasNeededIncludes($include, $this->loadedResources[$resourceId]['include'])) {
-            return $this->loadedResources[$resourceId]['resource'];
+        if (!$forceRefresh && isset(static::$loadedResources[$resourceId]) && 
+            $this->hasNeededIncludes($include, static::$loadedResources[$resourceId]['include'])) {
+            return static::$loadedResources[$resourceId]['resource'];
         }
 
         /**
@@ -112,7 +112,7 @@ class BaseResource {
      * Helper function to set a loaded resource in the object cache
      */
     public function setActiveResource($resourceId, $data, array $include = []) {
-        $this->loadedResources[$resourceId] = [
+        static::$loadedResources[$resourceId] = [
             'include' => $include,
             'resource' => $data
         ];
@@ -142,11 +142,11 @@ class BaseResource {
      * Return active resource as array
      */
     public function data(string $path = '', $defaultValue = null) {
-        if (!$this->activeResourceId || !$this->loadedResources[$this->activeResourceId]) {
+        if (!$this->activeResourceId || !isset(static::$loadedResources[$this->activeResourceId])) {
             throw new ResourceNotLoaded("The resource you are looking for has not been loaded!");
         }
 
-        $resource = $this->loadedResources[$this->activeResourceId]['resource'];
+        $resource = static::$loadedResources[$this->activeResourceId]['resource'];
 
         return $path ? (new Arr($resource))->get($path, $defaultValue) : $resource;
     }
@@ -155,7 +155,7 @@ class BaseResource {
      * Return id of active resource
      */
     public function id() {
-        if (!$this->activeResourceId || !$this->loadedResources[$this->activeResourceId]) {
+        if (!$this->activeResourceId || !isset(static::$loadedResources[$this->activeResourceId])) {
             throw new ResourceNotLoaded("The resource you are looking for has not been loaded!");
         }
 
