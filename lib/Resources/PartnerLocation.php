@@ -32,13 +32,13 @@ class PartnerLocation extends BaseResource {
      * If it doesn't exist create it automatically
      */
     public function getByNumber(int $locationNumber, array $include = [], bool $forceReload = false) {
-        if (!$forceReload && isset($this::$resourceIdsByNumber[$locationNumber])) {
+        if (!$forceReload && isset(static::$resourceIdsByNumber[$locationNumber])) {
             /**
              * A location for this number have already been loaded
              * return already loaded resource
              */
 
-            return $this->setActiveResourceId($this::$resourceIdsByNumber[$locationNumber]);
+            return $this->setActiveResourceId(static::$resourceIdsByNumber[$locationNumber]);
         }
 
         $endpoint = 'shortcuts/location-by-number/' . $locationNumber;
@@ -47,7 +47,7 @@ class PartnerLocation extends BaseResource {
 
         $data = $resource['data'];
 
-        $this::$resourceIdsByNumber[$locationNumber] = $data['id'];
+        static::$resourceIdsByNumber[$locationNumber] = $data['id'];
 
         return $this->setActiveResource($data['id'], $data, $include);
     }

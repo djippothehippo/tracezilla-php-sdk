@@ -21,17 +21,17 @@ class Tag extends BaseResource {
      * If it doesn't exist create it automatically
      */
     public function firstOrCreateByName(string $modelName, string $tagName, string $colorCode = 'info', bool $forceReload = false) {
-        if (!isset($this::$resourceIdsByModelAndName[$modelName])) {
-            $this::$resourceIdsByModelAndName[$modelName] = [];
+        if (!isset(static::$resourceIdsByModelAndName[$modelName])) {
+            static::$resourceIdsByModelAndName[$modelName] = [];
         }
 
-        if (!$forceReload && isset($this::$resourceIdsByModelAndName[$modelName][$tagName])) {
+        if (!$forceReload && isset(static::$resourceIdsByModelAndName[$modelName][$tagName])) {
             /**
              * A tag for this model and name have already been loaded
              * return already loaded resources
              */
 
-            return $this->setActiveResourceId($this::$resourceIdsByModelAndName[$modelName][$tagName]);
+            return $this->setActiveResourceId(static::$resourceIdsByModelAndName[$modelName][$tagName]);
         }
 
         $endpoint = 'shortcuts/tag-by-name/' . $modelName;
@@ -43,7 +43,7 @@ class Tag extends BaseResource {
         $data = $resource['data'];
 
         foreach ($data['models'] as $modelName) {
-            $this::$resourceIdsByModelAndName[$modelName][$tagName] = $data['id'];
+            static::$resourceIdsByModelAndName[$modelName][$tagName] = $data['id'];
         }
 
         return $this->setActiveResource($data['id'], $data, ['models']);
