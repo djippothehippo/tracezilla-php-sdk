@@ -60,7 +60,7 @@ class BaseResource {
      * Helper function get base endpoint of resource url
      */
     public function baseEndpoint() {
-        return self::BASE_ENDPOINT;
+        return static::BASE_ENDPOINT;
     }
 
     /**
@@ -223,7 +223,7 @@ class BaseResource {
      * Helper function to create new resource
      */
     public function store($data) {
-        $resource = $this->connector->postRequest(self::BASE_ENDPOINT, $data);
+        $resource = $this->connector->postRequest(static::BASE_ENDPOINT, $data);
         $this->setActiveResource($resource['id'], $resource);
         return $this;
     }
