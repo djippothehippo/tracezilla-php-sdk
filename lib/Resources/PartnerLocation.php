@@ -56,6 +56,6 @@ class PartnerLocation extends BaseResource {
      * Get partner of location
      */
     public function getPartner(array $include = [], $forceReload = false) {
-        $this->getRelated('partner', $include, $forceReload);
+        return $this->getRelated('partner', $include, $forceReload);
     }
 }
