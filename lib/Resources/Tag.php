@@ -31,7 +31,7 @@ class Tag extends BaseResource {
              * return already loaded resources
              */
 
-            $this::$resourceIdsByModelAndName[$modelName] = [];
+            return $this->setActiveResourceId($this::$resourceIdsByModelAndName[$modelName][$tagName]);
         }
 
         $endpoint = $this->baseEndpoint() . 'shortcuts/tag-by-name/' . $modelName;
@@ -42,12 +42,10 @@ class Tag extends BaseResource {
 
         $data = $resource['data'];
 
-        $this->setActiveResource($data['id'], $data, ['models']);
-
         foreach ($data['models'] as $modelName) {
             $this::$resourceIdsByModelAndName[$modelName][$tagName] = $data['id'];
         }
 
-        return $this;
+        return $this->setActiveResource($data['id'], $data, ['models']);
     }
 }

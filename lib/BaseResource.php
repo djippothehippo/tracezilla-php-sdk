@@ -2,6 +2,7 @@
 namespace TracezillaConnector;
 
 use TracezillaConnector\Exceptions\ResourceNotLoaded;
+use TracezillaConnector\Helpers\Arr;
 
 class BaseResource {
 
@@ -14,6 +15,11 @@ class BaseResource {
      * TracezillaConnector
      */
     protected $connector;
+
+    /**
+     * Static array to keep track of relations
+     */
+    public static $relations = [];
 
     /**
      * Loaded resources
@@ -95,6 +101,14 @@ class BaseResource {
     }
 
     /**
+     * Get related resource
+     */
+    public function getRelated($relationName, array $include = [], bool $forceReload = false) {
+        return (new $this::$relations[$relationName]['class']($this->connector))
+            ->get($this->data($relationName), $include, $forceReload);
+    }
+
+    /**
      * Helper function to set a loaded resource in the object cache
      */
     public function setActiveResource($resourceId, $data, array $include = []) {
@@ -104,6 +118,17 @@ class BaseResource {
         ];
 
         $this->activeResourceId = $resourceId;
+
+        return $this;
+    }
+
+    /**
+     * Helper function to set a the active resource id
+     */
+    public function setActiveResourceId($resourceId) {
+        $this->activeResourceId = $resourceId;
+
+        return $this;
     }
 
     /**
@@ -116,18 +141,20 @@ class BaseResource {
     /**
      * Return active resource as array
      */
-    public function resource() {
+    public function data(string $path = '', $defaultValue = null) {
         if (!$this->activeResourceId || !$this->loadedResources[$this->activeResourceId]) {
             throw new ResourceNotLoaded("The resource you are looking for has not been loaded!");
         }
 
-        return $this->loadedResources[$this->activeResourceId]['resource'];
+        $resource = $this->loadedResources[$this->activeResourceId]['resource'];
+
+        return $path ? (new Arr($resource))->get($path, $defaultValue) : $resource;
     }
 
     /**
      * Return id of active resource
      */
-    public function resourceId() {
+    public function id() {
         if (!$this->activeResourceId || !$this->loadedResources[$this->activeResourceId]) {
             throw new ResourceNotLoaded("The resource you are looking for has not been loaded!");
         }
