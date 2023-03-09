@@ -41,7 +41,7 @@ class PartnerLocation extends BaseResource {
             return $this->setActiveResourceId(static::$resourceIdsByNumber[$locationNumber]);
         }
 
-        $endpoint = 'shortcuts/location-by-number/' . $locationNumber;
+        $endpoint = 'location-by-number/' . $locationNumber;
 
         $resource = $this->connector->getRequest($endpoint, ['include' => implode(',', $include)]);
 
@@ -49,7 +49,7 @@ class PartnerLocation extends BaseResource {
 
         static::$resourceIdsByNumber[$locationNumber] = $data['id'];
 
-        return $this->setActiveResource($data['id'], $data, $include);
+        return $this->setActiveResource($data, $include);
     }
 
     /**

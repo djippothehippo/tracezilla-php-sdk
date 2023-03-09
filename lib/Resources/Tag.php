@@ -34,7 +34,7 @@ class Tag extends BaseResource {
             return $this->setActiveResourceId(static::$resourceIdsByModelAndName[$modelName][$tagName]);
         }
 
-        $endpoint = 'shortcuts/tag-by-name/' . $modelName;
+        $endpoint = 'tag-by-name/' . $modelName;
 
         $resource = $this->connector->putRequest($endpoint, [
             'tag_name' => $tagName
@@ -46,6 +46,6 @@ class Tag extends BaseResource {
             static::$resourceIdsByModelAndName[$modelName][$tagName] = $data['id'];
         }
 
-        return $this->setActiveResource($data['id'], $data, ['models']);
+        return $this->setActiveResource($data, ['models']);
     }
 }
