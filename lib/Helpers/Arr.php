@@ -13,6 +13,16 @@ class Arr {
         return $this;
     }
 
+    /**
+     * Helper function to create instance
+     */
+    public static function from(array $arr) {
+        return new self($arr);
+    }
+
+    /**
+     * Get array value by path
+     */
     public function get(string $path, mixed $defaultValue = null) {
         $parts      = explode('.', $path);
         $pointer    = $this->arr;

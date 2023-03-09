@@ -95,7 +95,7 @@ class BaseResource {
         /**
          * Store the loaded resource in the cache for fast fetch next time
          */
-        $this->setActiveResource($resourceId, $resource, $include);
+        $this->setActiveResource($resource['data'], $include);
 
         return $this;
     }
@@ -111,13 +111,13 @@ class BaseResource {
     /**
      * Helper function to set a loaded resource in the object cache
      */
-    public function setActiveResource($resourceId, $data, array $include = []) {
-        static::$loadedResources[$resourceId] = [
+    public function setActiveResource(array $data, array $include = []) {
+        static::$loadedResources[$data['id']] = [
             'include' => $include,
             'resource' => $data
         ];
 
-        $this->activeResourceId = $resourceId;
+        $this->activeResourceId = $data['id'];
 
         return $this;
     }
@@ -148,7 +148,7 @@ class BaseResource {
 
         $resource = static::$loadedResources[$this->activeResourceId]['resource'];
 
-        return $path ? (new Arr($resource))->get($path, $defaultValue) : $resource;
+        return $path ? Arr::from($resource)->get($path, $defaultValue) : $resource;
     }
 
     /**
@@ -224,7 +224,7 @@ class BaseResource {
      */
     public function store($data) {
         $resource = $this->connector->postRequest(static::BASE_ENDPOINT, $data);
-        $this->setActiveResource($resource['id'], $resource);
+        $this->setActiveResource($resource);
         return $this;
     }
 
