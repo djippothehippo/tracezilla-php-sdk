@@ -109,13 +109,47 @@ class BaseResource {
     }
 
     /**
-     * Helper function to set a loaded resource in the object cache
+     * Add loaded resource to static cache
      */
-    public function setActiveResource(array $data, array $include = []) {
+    public static function addLoadedResource(array $data, array $include = []) {
+        foreach ($include as $relationName) {
+            $nameParts = explode('.', $relationName);
+
+            if (count($nameParts) > 1 || 
+                empty($data[$relationName]) || 
+                !isset(static::$relations[$relationName]) || 
+                !isset(static::$relations[$relationName]['class'])) {
+                continue;
+            }
+
+            $subIncludes = [];
+
+            foreach ($include as $relationName2) {
+                $nameParts2 = explode('.', $relationName2);
+
+                if (count($nameParts2) > 1 && $nameParts2[0] === $relationName) {
+                    array_shift($nameParts2);
+
+                    $subIncludes[] = implode('.', $nameParts2);
+                }
+            }
+
+            static::$relations[$relationName]['class']::addLoadedResource($data[$relationName], $subIncludes);
+
+            unset($data[$relationName]);
+        }
+
         static::$loadedResources[$data['id']] = [
             'include' => $include,
             'resource' => $data
         ];
+    }
+
+    /**
+     * Helper function to set a loaded resource in the object cache
+     */
+    public function setActiveResource(array $data, array $include = []) {
+        static::addLoadedResource($data, $include);
 
         $this->activeResourceId = $data['id'];
 
@@ -232,7 +266,7 @@ class BaseResource {
      * Helper function to update existing resource
      */
     public function update($data) {
-        $resource = $this->resource();
+        $resource = $this->data();
 
         $data = array_merge($resource, $data);
 
