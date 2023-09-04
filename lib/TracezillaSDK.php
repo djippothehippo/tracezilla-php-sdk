@@ -77,9 +77,13 @@ class TracezillaSDK {
         return $this->baseUrl . '/api/v1/' . $this->teamSlug . '/' . $endpoint;
     }
 
-    public function getRequest($endpoint, $query = [])
+    public function getRequest($endpoint, array $query = [], array $include = [])
     {        
         $url = $this->endpointUrl($endpoint);
+
+        if (count($include) > 0) {
+            $query['include'] = implode(',', $include);
+        }
 
         $response = $this->client->request('GET', $url, [
             'headers' => $this->defaultHttpHeader(),

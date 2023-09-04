@@ -90,7 +90,7 @@ class BaseResource {
         /**
          * Try to fetch the resource
          */
-        $resource = $this->connector->getRequest($this->resourceEndpoint($resourceId));
+        $resource = $this->connector->getRequest($this->resourceEndpoint($resourceId), [], $include);
 
         /**
          * Store the loaded resource in the cache for fast fetch next time
@@ -220,14 +220,14 @@ class BaseResource {
     /**
      * Get initial index request
      */
-    public function index($query) {
+    public function index(array $query = [], array $include = []) {
         /**
          * Try to fetch the resource
          */
         $this->results = null;
         $this->nextPageUrl = null;
 
-        $response = $this->connector->getRequest($this->baseEndpoint(), $query);
+        $response = $this->connector->getRequest($this->baseEndpoint(), $query, $include);
 
         if ($response) {
             $this->results = $response['data'];
