@@ -74,7 +74,39 @@ class SalesOrder extends OrderBaseResource {
         $this->soldSkuLines[] = $data;
     }
 
+    /**
+     * 
+     */
     public function buildSoldSkuLinesForRequest() {
         return $this->soldSkuLines;
+    }
+
+    /**
+     * 
+     */
+    public function suggestLots() {
+
+    }
+
+    /**
+     * 
+     */
+    public function invoice() {
+
+    }
+
+    /**
+     * 
+     */
+    public function finishWithInvoice() {
+        $endpoint = 'orders/sales/' . $this->getActiveResourceId() . '/invoice';
+
+        $resource = $this->connector->postRequest($endpoint, [
+
+        ]);
+
+        $data = $resource['data'];
+
+        return $this->setActiveResource($data, ['tags', 'remark', 'partners']);
     }
 }

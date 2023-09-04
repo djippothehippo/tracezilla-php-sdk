@@ -51,7 +51,7 @@ class OrderBaseResource extends BaseResource
     /**
      * Add new partner location to order
      */
-    public function addPartnerLocation(string $role, string $partnerId, string $partnerLocationId)
+    public function addPartnerWithRole(string $role, string $partnerId, string $partnerLocationId)
     {
         if (!in_array($role, $this->allowedPartnerRoles)) {
             $allowedPartnerRoles = implode(', ', $this->allowedPartnerRoles);

@@ -1,8 +1,8 @@
 {
-    "name": "djippothehippo/tracezilla-php-connector",
+    "name": "djippothehippo/tracezilla-php-sdk",
     "description": "PHP SDK for the tracezilla API",
     "keywords": ["PHP","tracezilla","SDK"],
-    "homepage": "https://github.com/djippothehippo/tracezilla-php-connector",
+    "homepage": "https://github.com/djippothehippo/tracezilla-php-sdk",
     "type": "library",
     "require": {
         "guzzlehttp/guzzle": "^7.0",
