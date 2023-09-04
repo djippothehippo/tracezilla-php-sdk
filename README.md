@@ -1,1 +1,1 @@
-# tracezilla-php-connector
+# tracezilla-php-sdk
