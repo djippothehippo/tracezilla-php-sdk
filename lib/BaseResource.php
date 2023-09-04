@@ -84,7 +84,7 @@ class BaseResource {
          */
         if (!$forceRefresh && isset(static::$loadedResources[$resourceId]) && 
             $this->hasNeededIncludes($include, static::$loadedResources[$resourceId]['include'])) {
-            return static::$loadedResources[$resourceId]['resource'];
+            return $this;
         }
 
         /**
