@@ -43,7 +43,7 @@ class PartnerLocation extends BaseResource {
 
         $endpoint = 'location-by-number/' . $locationNumber;
 
-        $resource = $this->connector->getRequest($endpoint, ['include' => implode(',', $include)]);
+        $resource = $this->connector->getRequest($endpoint, [], $include);
 
         $data = $resource['data'];
 
