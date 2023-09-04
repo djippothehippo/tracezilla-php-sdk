@@ -1,10 +1,10 @@
 <?php
-namespace TracezillaConnector;
+namespace TracezillaSDK;
 
 use GuzzleHttp;
-use TracezillaConnector\Exceptions\ResourceCouldNotBefound;
+use TracezillaSDK\Exceptions\ResourceCouldNotBefound;
 
-class TracezillaConnector {
+class TracezillaSDK {
     /**
      * Base url of tracezilla
      */
@@ -142,7 +142,7 @@ class TracezillaConnector {
      * Instantiate new resource classes
      */
     public function __call($methodName, $arguments) {
-        $className = "TracezillaConnector\\Resources\\$methodName";
+        $className = "TracezillaSDK\\Resources\\$methodName";
 
         if (!class_exists($className)) {
             throw new ResourceCouldNotBefound("A resource with the name $methodName could not be found!");

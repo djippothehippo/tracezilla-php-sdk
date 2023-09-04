@@ -1,12 +1,12 @@
 <?php
 
-namespace TracezillaConnector\Helpers;
+namespace TracezillaSDK\Helpers;
 
-use TracezillaConnector\BaseResource;
-use TracezillaConnector\Exceptions\PartnerRoleNotAllowedForOrderType;
-use TracezillaConnector\Exceptions\PartnerRoleRequiredForOrderType;
-use TracezillaConnector\Resources\PartnerLocation;
-use TracezillaConnector\Resources\Sku;
+use TracezillaSDK\BaseResource;
+use TracezillaSDK\Exceptions\PartnerRoleNotAllowedForOrderType;
+use TracezillaSDK\Exceptions\PartnerRoleRequiredForOrderType;
+use TracezillaSDK\Resources\PartnerLocation;
+use TracezillaSDK\Resources\Sku;
 
 class OrderBaseResource extends BaseResource
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TracezillaConnector\Helpers;
+namespace TracezillaSDK\Helpers;
 
 class Arr {
     /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace TracezillaConnector\Resources;
+namespace TracezillaSDK\Resources;
 
-use TracezillaConnector\Helpers\OrderBaseResource;
+use TracezillaSDK\Helpers\OrderBaseResource;
 
 class SalesOrder extends OrderBaseResource {
     /**

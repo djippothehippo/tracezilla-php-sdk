@@ -1,8 +1,8 @@
 <?php
 
-namespace TracezillaConnector\Resources;
+namespace TracezillaSDK\Resources;
 
-use TracezillaConnector\BaseResource;
+use TracezillaSDK\BaseResource;
 
 class SalesPriceList extends BaseResource {
     /**

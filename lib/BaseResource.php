@@ -1,8 +1,8 @@
 <?php
-namespace TracezillaConnector;
+namespace TracezillaSDK;
 
-use TracezillaConnector\Exceptions\ResourceNotLoaded;
-use TracezillaConnector\Helpers\Arr;
+use TracezillaSDK\Exceptions\ResourceNotLoaded;
+use TracezillaSDK\Helpers\Arr;
 
 class BaseResource {
 
@@ -12,7 +12,7 @@ class BaseResource {
     const BASE_ENDPOINT = '';
 
     /**
-     * TracezillaConnector
+     * TracezillaSDK
      */
     protected $connector;
 
@@ -44,7 +44,7 @@ class BaseResource {
     /**
      * 
      */
-    public function __construct(TracezillaConnector $connector)
+    public function __construct(TracezillaSDK $connector)
     {
         $this->connector = $connector;
     }
