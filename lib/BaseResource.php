@@ -157,6 +157,13 @@ class BaseResource {
     }
 
     /**
+     * Helper function to get the active resource as array
+     */
+    public function getActiveResource() {
+        return static::$loadedResources[$this->activeResourceId]['resource'];
+    }
+
+    /**
      * Helper function to set a the active resource id
      */
     public function setActiveResourceId($resourceId) {
@@ -194,6 +201,13 @@ class BaseResource {
         }
 
         return $this->activeResourceId;
+    }
+
+    /**
+     * Return active resource
+     */
+    public function resource() {
+        return static::$loadedResources[$this->id()]['resource'];
     }
 
     /**
