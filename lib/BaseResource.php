@@ -136,7 +136,7 @@ class BaseResource {
 
             static::$relations[$relationName]['class']::addLoadedResource($data[$relationName], $subIncludes);
 
-            unset($data[$relationName]);
+            //unset($data[$relationName]);
         }
 
         static::$loadedResources[$data['id']] = [
